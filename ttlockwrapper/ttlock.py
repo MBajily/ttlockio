@@ -67,7 +67,7 @@ class TTLock():
             raise TTlockAPIError()
 
         _url_request = USER_CREATE_URL.format(
-            API_URI,
+            API_URL,
             USER_RESOURCE,
             clientId,
             clientSecret,
@@ -80,7 +80,7 @@ class TTLock():
 
 
     @classmethod
-    def get_token(cls,clientId,clientSecret,username,password,redirect_uri,hashed_password=False):
+    def get_token(cls,clientId,clientSecret,username,password,redirect_url,hashed_password=False):
         if not hashed_password:
             password = hashlib.md5(password.encode()).hexdigest()
             
@@ -90,19 +90,19 @@ class TTLock():
             clientSecret,
             username,
             password,
-            redirect_uri,
+            redirect_url,
         )
 
         return TTLock.__send_request__(_url_request,'POST').json()
     
     @classmethod
-    def refresh_token(cls,clientId,clientSecret,refresh,redirect_uri):
+    def refresh_token(cls,clientId,clientSecret,refresh,redirect_url):
         _url_request = TOKEN_REFRESH_URL.format(
             TOKEN_RESOURCE,
             clientId,
             clientSecret,
             refresh,
-            redirect_uri,
+            redirect_url,
         )
 
         return TTLock.__send_request__(_url_request,'POST').json()
